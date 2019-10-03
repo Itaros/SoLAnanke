@@ -20,9 +20,9 @@ namespace Ananke.Attachment.Core.Loader
         public IEnumerable<ISoLModV1> Activate()
         {
             List<ISoLModV1> mods = new List<ISoLModV1>();
-            
+
             var runtime = _modDirectory.EnumerateFiles().First(
-                f=>String.Equals(f.Name,"Runtime.dll", StringComparison.InvariantCultureIgnoreCase));
+                f => f.Extension == ".dll");
             var modAss = Assembly.LoadFile(runtime.FullName);
 
             var primaryModule = modAss.Modules.First();
