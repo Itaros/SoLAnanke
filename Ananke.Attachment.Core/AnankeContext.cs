@@ -1,4 +1,5 @@
-﻿using Ananke.Attachment.Core.Items;
+﻿using Ananke.Attachment.Core.Graphics;
+using Ananke.Attachment.Core.Items;
 
 namespace Ananke.Attachment.Core
 {
@@ -9,6 +10,8 @@ namespace Ananke.Attachment.Core
         public long Version => 10000;
 
         public ItemsRegistry ItemsRegistry { get; } = new ItemsRegistry();
+
+        public DumbGraphicsRegistry DumbGraphicsRegistry { get; } = new DumbGraphicsRegistry();
 
     }
 }

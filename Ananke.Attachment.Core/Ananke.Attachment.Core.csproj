@@ -32,8 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\MODDING\Signs of Life\MonoGame.Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Signs of Life Modded">
       <HintPath>C:\MODDING\Signs of Life\Signs of Life Modded.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AnankeContext.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Graphics\DumbGraphicsRegistry.cs" />
     <Compile Include="Items\ItemActivator.cs" />
     <Compile Include="Items\ItemDefinition.cs" />
     <Compile Include="Items\ItemsRegistry.cs" />
