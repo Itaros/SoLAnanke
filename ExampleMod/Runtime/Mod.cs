@@ -35,14 +35,13 @@ namespace Runtime
             context.ItemsRegistry.Add(itemDefinitionGoldenChicken);
 
             //TODO: MY GOD!!! IT IS SO UGLY!
-            StaticPrefabType sptMagnument = (StaticPrefabType) 2000;
+            long sptMagnumentId = 2000;
             var staticPrefabDefintionMagnument = new StaticPrefabDefinition(
-                (long) sptMagnument,
+                sptMagnumentId,
                 "golden_chincken_magnument",
                 new StaticPrefabActivator(
-                    (() => new GoldenChickenMagnument(sptMagnument,
+                    () => new GoldenChickenMagnument(sptMagnumentId,
                         spriteGoldenChickenMagnument)
-                    )
                 )
             );
             context.StaticPrefabRegistry.Add(staticPrefabDefintionMagnument);

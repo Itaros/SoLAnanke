@@ -69,6 +69,8 @@
     <Compile Include="StaticPrefabs\StaticPrefabDefinition.cs" />
     <Compile Include="StaticPrefabs\StaticPrefabRegistry.cs" />
     <Compile Include="SweetBridgeDog.cs" />
+    <Compile Include="Templates\StaticPrefabs\AnankeStaticPrefab.cs" />
+    <Compile Include="Templates\StaticPrefabs\Tilemap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

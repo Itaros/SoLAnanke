@@ -1,25 +1,27 @@
 ﻿using System;
 using Ananke.Attachment.Core.Graphics;
+using Ananke.Attachment.Core.Templates.StaticPrefabs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SignsOfLife;
-using SignsOfLife.Prefabs.StaticPrefabs;
 using SignsOfLife.Utils;
 
 namespace Runtime.ExampleMod
 {
-    public class GoldenChickenMagnument : StaticPrefab
+    public class GoldenChickenMagnument : AnankeStaticPrefab
     {
-        private static readonly int[,] TileData =
-        {
-            {0, 0},
-            {0, 0}
-        };
+        private static readonly Tilemap TileData = new Tilemap(new[,]
+            {
+                {new Tilemap.TileVariant(), new Tilemap.TileVariant()},
+                {new Tilemap.TileVariant(), new Tilemap.TileVariant()}
+            }
+        );
 
         public GoldenChickenMagnument(
-            StaticPrefabType staticPrefabType,
-            DumbGraphicsRegistry.ResourceDefinition textureResource)
-            : base("Golden Chicken Magnument", TileData, staticPrefabType)
+            long id,
+            DumbGraphicsRegistry.ResourceDefinition textureResource
+        )
+            : base("Golden Chicken Magnument", TileData, id)
         {
             _cutOutBounds = true;
             Description = "Indicates your domain.";
