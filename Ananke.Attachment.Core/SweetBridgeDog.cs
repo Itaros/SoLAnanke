@@ -1,18 +1,36 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SignsOfLife.Entities.Items;
+using SignsOfLife.Prefabs.StaticPrefabs;
 
-namespace Ananke.Attachment.Core.Items
+namespace Ananke.Attachment.Core
 {
     public class SweetBridgeDog
     {
+
+        public IEnumerable<Tuple<string, int>> CollectBuiltinEnummedStaticPrefabs()
+        {
+            var coreAss = GetCurrentAss();
+
+            List<Tuple<string, int>> extracted = new List<Tuple<string, int>>();
+
+            var builtinTypesEnum = coreAss.GetType("SignsOfLife.Prefabs.StaticPrefabs.StaticPrefabType");
+            var enumFields = builtinTypesEnum.GetFields(BindingFlags.Public | BindingFlags.Static);
+            
+            foreach (var field in enumFields)
+            {
+                extracted.Add(new Tuple<string, int>(field.Name, (int)field.GetValue(null)));
+            }
+
+            return extracted;
+
+        }
+        
         public IEnumerable<Tuple<string, int>> CollectBuiltinItemTypes()
         {
-            var coreAss = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => 
-                String.Equals(a.GetName().Name, "Signs of Life Modded", StringComparison.InvariantCultureIgnoreCase));
+            var coreAss = GetCurrentAss();
             
             List<Tuple<string, int>> extracted = new List<Tuple<string, int>>();
                 
@@ -27,10 +45,16 @@ namespace Ananke.Attachment.Core.Items
             return extracted;
         }
 
+        private static Assembly GetCurrentAss()
+        {
+            var coreAss = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a =>
+                String.Equals(a.GetName().Name, "Signs of Life Modded", StringComparison.InvariantCultureIgnoreCase));
+            return coreAss;
+        }
+
         public IEnumerable<Tuple<int,Type>> ProbeTypesOfCreatedObjects(IEnumerable<int> indexes)
         {
-            var coreAss = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => 
-                String.Equals(a.GetName().Name, "Signs of Life Modded", StringComparison.InvariantCultureIgnoreCase));
+            var coreAss = GetCurrentAss();
 
             var builtinHandler = coreAss.GetType("SignsOfLife.Entities.Items.InventoryItemHandler");
             var methodCreator = builtinHandler.GetMethod("GetNewItemByItemTypeAnankeBackupCall",
@@ -63,6 +87,37 @@ namespace Ananke.Attachment.Core.Items
 
             return extracted;
         }
-        
+
+        public IEnumerable<Tuple<Tuple<string, int>, Type>> ProbeTypesOfCreatedStaticPrefabs(IEnumerable<Tuple<string,int>> listOfVanillaPrefabs)
+        {
+            var coreAss = GetCurrentAss();
+            var builtinHandler = coreAss.GetType("SignsOfLife.Prefabs.StaticPrefabs.StaticPrefab");
+            var methodCreator = builtinHandler.GetMethod("GetNewStaticPrefabByStaticPrefabTypeAnankeBackupCall",
+                BindingFlags.Public | BindingFlags.Static);
+            
+            List<Tuple<Tuple<string, int>, Type>> tuple = new List<Tuple<Tuple<string, int>, Type>>();
+            
+            foreach (var vanillaPrefab in listOfVanillaPrefabs)
+            {
+                StaticPrefab prefabPrototype = null;
+                try
+                {
+                    var prototype = methodCreator.Invoke(null, new object[] {(StaticPrefabType) vanillaPrefab.Item2});
+                    prefabPrototype = (StaticPrefab) prototype;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"StaticPrefab {vanillaPrefab.Item2} aka {vanillaPrefab.Item1} probing has exploded: \n{e}");
+                }
+
+                Type type = null;
+
+                if (prefabPrototype != null)
+                    type = prefabPrototype.GetType();
+                tuple.Add(new Tuple<Tuple<string, int>, Type>(vanillaPrefab, type));
+            }
+
+            return tuple;
+        }
     }
 }

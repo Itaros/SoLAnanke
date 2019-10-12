@@ -36,7 +36,7 @@ namespace Ananke.Attachment.Core.Items
         
         private List<ItemDefinition> _definitions = new List<ItemDefinition>();
 
-        public void Reset()
+        internal void Reset()
         {
             _definitions.Clear();
         }

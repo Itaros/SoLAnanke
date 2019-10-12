@@ -58,6 +58,10 @@
     <Compile Include="Mod\ISoLModV1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoLInventoryItemHandlerBypass.cs" />
+    <Compile Include="SoLStaticPrefabInlineRegistryBypass.cs" />
+    <Compile Include="StaticPrefabs\StaticPrefabActivator.cs" />
+    <Compile Include="StaticPrefabs\StaticPrefabDefinition.cs" />
+    <Compile Include="StaticPrefabs\StaticPrefabRegistry.cs" />
     <Compile Include="SweetBridgeDog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
