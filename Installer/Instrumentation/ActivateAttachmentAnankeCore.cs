@@ -34,9 +34,9 @@ namespace Installer.Instrumentation
             
             //Finding SoL ctor...
 
-            var sol = main.Types.FirstOrDefault(t => t.Name == "Config");
+            var solConfigClazz = main.Types.FirstOrDefault(t => t.Name == "Config");
             //var solConstructor = sol.GetConstructors().First();
-            var solInitialization = sol.GetMethods().First(m => m.Name== "LoadData");
+            var solInitialization = solConfigClazz.GetMethods().First(m => m.Name== "LoadData");
             
             var ctorProcessor = solInitialization.Body.GetILProcessor();
             ctorProcessor.InsertAfter(
