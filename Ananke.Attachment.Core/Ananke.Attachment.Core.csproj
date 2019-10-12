@@ -55,9 +55,15 @@
     <Compile Include="Items\VanillaItemDefinition.cs" />
     <Compile Include="Loader\ModActivator.cs" />
     <Compile Include="Loader\ModLoader.cs" />
+    <Compile Include="Mod\CompatibilityProviders.cs" />
     <Compile Include="Mod\ISoLModV1.cs" />
+    <Compile Include="Mod\SoLModV1CompatibilityProvider.cs" />
+    <Compile Include="Phases\PhaseAction.cs" />
+    <Compile Include="Phases\PhaseController.cs" />
+    <Compile Include="Phases\PhaseToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoLInventoryItemHandlerBypass.cs" />
+    <Compile Include="SoLPhaseDelegator.cs" />
     <Compile Include="SoLStaticPrefabInlineRegistryBypass.cs" />
     <Compile Include="StaticPrefabs\StaticPrefabActivator.cs" />
     <Compile Include="StaticPrefabs\StaticPrefabDefinition.cs" />

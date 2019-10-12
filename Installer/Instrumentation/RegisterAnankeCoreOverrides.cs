@@ -90,6 +90,24 @@ namespace Installer.Instrumentation
                     ass);
             }
 
+            //Phase hook OnAfterInitialRecipesWereLoaded
+            {
+                var delegatorMethod = attachment.MainModule.Types.First(t => t.Name == "SoLPhaseDelegator").Methods
+                    .First(m => m.IsStatic && m.Name == "OnAfterInitialRecipesWereLoaded");
+
+                var solClass = main.Types.FirstOrDefault(t => t.Name == "SpaceGame");
+                var solClassLoadContentMethod = solClass.Methods.FirstOrDefault(m => m.Name == "LoadContent");
+                var solClassLoadContentMethodIL = solClassLoadContentMethod.Body.GetILProcessor();
+
+                var ilcodeCall =
+                    solClassLoadContentMethodIL.Create(OpCodes.Call, main.ImportReference(delegatorMethod));
+                solClassLoadContentMethodIL.InsertAfter(
+                    solClassLoadContentMethodIL.Body.Instructions.First(i =>
+                        i.OpCode == OpCodes.Call && ((MethodReference) i.Operand).Name.Contains("GetRecipes")).Next,//We pick a call and step after result assignment
+                    ilcodeCall
+                );
+            }
+            
         }
     }
 }
