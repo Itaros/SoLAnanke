@@ -56,7 +56,10 @@
     <Compile Include="Loader\ModActivator.cs" />
     <Compile Include="Loader\ModLoader.cs" />
     <Compile Include="Mod\CompatibilityProviders.cs" />
+    <Compile Include="Mod\ISoLMod.cs" />
     <Compile Include="Mod\ISoLModV1.cs" />
+    <Compile Include="Mod\ModContext.cs" />
+    <Compile Include="Mod\IModContextV1.cs" />
     <Compile Include="Mod\SoLModV1CompatibilityProvider.cs" />
     <Compile Include="Phases\PhaseAction.cs" />
     <Compile Include="Phases\PhaseController.cs" />
@@ -74,6 +77,7 @@
     <Compile Include="SweetBridgeDog.cs" />
     <Compile Include="Templates\StaticPrefabs\AnankeStaticPrefab.cs" />
     <Compile Include="Templates\StaticPrefabs\Tilemap.cs" />
+    <Compile Include="Tools\PathHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

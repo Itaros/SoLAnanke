@@ -1,7 +1,7 @@
 ﻿namespace Ananke.Attachment.Core.Mod
 {
-    public interface ISoLModV1
+    public interface ISoLModV1 : ISoLMod
     {
-        void Init(AnankeContext context);
+        void Init(AnankeContext ananke, IModContextV1 ctx);
     }
 }

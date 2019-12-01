@@ -11,7 +11,7 @@ namespace Ananke.Attachment.Core.Loader
 
         private DirectoryInfo _modsDir;
         
-        private List<ISoLModV1> _loadedMods = new List<ISoLModV1>();
+        private List<ModContext> _loadedMods = new List<ModContext>();
         
         public ModLoader(DirectoryInfo modsDir)
         {

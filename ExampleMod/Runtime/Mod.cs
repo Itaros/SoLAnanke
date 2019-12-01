@@ -7,6 +7,7 @@ using Ananke.Attachment.Core.Mod;
 using Ananke.Attachment.Core.Phases;
 using Ananke.Attachment.Core.Recipes;
 using Ananke.Attachment.Core.StaticPrefabs;
+using Ananke.Attachment.Core.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Runtime.ExampleMod;
@@ -19,14 +20,18 @@ namespace Runtime
     // ReSharper disable once UnusedMember.Global
     public class Mod : ISoLModV1
     {
-        public void Init(AnankeContext context)
+        public string Name => "Example Mod";
+
+        public void Init(AnankeContext context, IModContextV1 mod)
         {
-            var spriteGoldenChicken = AnankeContext.Current.DumbGraphicsRegistry.DefineResource(
-                new FileInfo(@"C:\MODDING\Signs of Life\mods\example\assets\goldenchicken.png"),
+            PathHelper path = new PathHelper(mod as ModContext);
+
+                var spriteGoldenChicken = AnankeContext.Current.DumbGraphicsRegistry.DefineResource(
+                path.GetResource(@"assets\goldenchicken.png"),
                 new Rectangle(17, 10, 32, 44));
             
             var spriteGoldenChickenMagnument = AnankeContext.Current.DumbGraphicsRegistry.DefineResource(
-                new FileInfo(@"C:\MODDING\Signs of Life\mods\example\assets\goldenchicken_magnument.png"),
+                path.GetResource(@"assets\goldenchicken_magnument.png"),
                 new Rectangle(0, 0, 64, 64));            
 
             var itemDefinitionGoldenChicken = new ItemDefinition(

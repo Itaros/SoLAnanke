@@ -17,9 +17,9 @@ namespace Ananke.Attachment.Core.Loader
             _modDirectory = modDirectory;
         }
 
-        public IEnumerable<ISoLModV1> Activate()
+        public IEnumerable<ModContext> Activate()
         {
-            List<ISoLModV1> mods = new List<ISoLModV1>();
+            List<ModContext> mods = new List<ModContext>();
 
             var runtime = _modDirectory.EnumerateFiles().First(
                 f => f.Extension == ".dll");
@@ -30,8 +30,9 @@ namespace Ananke.Attachment.Core.Loader
             foreach (var modEntry in modEntries)
             {
                 ISoLModV1 mod = (ISoLModV1) Activator.CreateInstance(modEntry);
-                mod.Init(AnankeContext.Current);
-                mods.Add(mod);
+                ModContext ctx = new ModContext(mod, _modDirectory);
+                mod.Init(AnankeContext.Current, ctx);
+                mods.Add(ctx);
             }
 
             return mods;
