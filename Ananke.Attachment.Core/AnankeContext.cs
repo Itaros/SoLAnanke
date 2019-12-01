@@ -2,6 +2,7 @@
 using Ananke.Attachment.Core.Items;
 using Ananke.Attachment.Core.Mod;
 using Ananke.Attachment.Core.Phases;
+using Ananke.Attachment.Core.Recipes;
 using Ananke.Attachment.Core.StaticPrefabs;
 
 namespace Ananke.Attachment.Core
@@ -27,6 +28,8 @@ namespace Ananke.Attachment.Core
         public CompatibilityProviders Compatibility { get; }
 
         public DumbGraphicsRegistry DumbGraphicsRegistry { get; } = new DumbGraphicsRegistry();
+
+        public RecipeRegistry RecipeRegistry { get; } = new RecipeRegistry();
 
     }
 }
