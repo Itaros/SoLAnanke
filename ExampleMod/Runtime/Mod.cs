@@ -75,6 +75,13 @@ namespace Runtime
                         },
                         new RecipeRegistry.StaticPrefabRecipeOutcome(staticPrefabDefintionMagnument.Id)
                     );
+
+                    //Vanilla recipe deletion
+                    var fancyRecipe = ctx.RecipeRegistry.Discover(r => r.Name == "Wooden Chair");
+                    foreach (var actionableRecipe in fancyRecipe)
+                    {
+                        actionableRecipe.Remove();
+                    }
                 }
             );
         }

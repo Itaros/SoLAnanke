@@ -139,7 +139,21 @@ namespace Ananke.Attachment.Core.Recipes
 
             return recipe;
         }
-        
-        
+
+
+        public IEnumerable<ActionableRecipe> Discover(Func<Recipe, bool> predicate)
+        {
+            var source = SignsOfLife.UI.Hud._allRecipes;
+            List<ActionableRecipe> candidates = new List<ActionableRecipe>();
+            foreach (var recipe in source)
+            {
+                if (predicate(recipe))
+                {
+                    candidates.Add(new ActionableRecipe(recipe, source));
+                }
+            }
+
+            return candidates;
+        }
     }
 }
