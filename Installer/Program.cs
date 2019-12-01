@@ -24,6 +24,7 @@ namespace Installer
             AbstractInstrumentation[] instrumentations = {
                 new ChangeCoreModuleName(), 
                 new ReplaceVersion(),
+                new FixupHackySpecialCases(), 
                 new AddAttachmentAnankeCore(),
                 new ActivateAttachmentAnankeCore(), 
                 new RegisterAnankeCoreOverrides(),

@@ -60,6 +60,7 @@
     <Compile Include="Instrumentation\ChangeCoreModuleName.cs" />
     <Compile Include="Instrumentation\AddAttachmentAnankeCore.cs" />
     <Compile Include="Instrumentation\ActivateAttachmentAnankeCore.cs" />
+    <Compile Include="Instrumentation\FixupHackySpecialCases.cs" />
     <Compile Include="Instrumentation\RegisterAnankeCoreOverrides.cs" />
     <Compile Include="Instrumentation\ReplaceVersion.cs" />
     <Compile Include="Instrumentation\UnlockAccess.cs" />
