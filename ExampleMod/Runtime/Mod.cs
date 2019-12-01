@@ -5,6 +5,7 @@ using Ananke.Attachment.Core.Graphics;
 using Ananke.Attachment.Core.Items;
 using Ananke.Attachment.Core.Mod;
 using Ananke.Attachment.Core.Phases;
+using Ananke.Attachment.Core.Recipes;
 using Ananke.Attachment.Core.StaticPrefabs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,36 +50,31 @@ namespace Runtime
             context.Compatibility.V1Compat.AddActionForRecipeLoadingPhase(
                 GetType(), ctx =>
                 {
-                    SignsOfLife.UI.Gumps.CraftingWindow.AllCategories.Add("Swag");
-                    //TODO: Too ugly
-                    SignsOfLife.UI.Hud._allRecipes.Add(new Recipe
-                    {
-                        Name = "Golden Chicken Statue",
-                        AutoGrant = true,
-                        Category = "Swag",
-                        CraftingCategory = "Furniture",
-                        HideUnlessDebug = false,
-                        RequiredMaterials = new[]
+                    var category = ctx.RecipeRegistry.GetRecipeCategory("Swag");
+
+                    ctx.RecipeRegistry.CreateRecipe(
+                        "Golden Chicken Statue",
+                        category, RecipeRegistry.SoLCraftingCategory.FURNITURE,
+                        new[]
                         {
-                            new RequiredRecipeMaterial(InventoryItemType.GOLD_INGOT, 1),
-                        }.ToList(),
-                        ResultItem = new ResultRecipeItem((InventoryItemType) itemDefinitionGoldenChicken.Id, 1)
-                    });
-                    //TODO: Too ugly
-                    SignsOfLife.UI.Hud._allRecipes.Add(new Recipe
-                    {
-                        Name = "Golden Chicken Magnument",
-                        AutoGrant = true,
-                        Category = "Swag",
-                        CraftingCategory = "Projects",
-                        HideUnlessDebug = false,
-                        RequiredMaterials = new[]
+                            new RequiredRecipeMaterial(
+                                InventoryItemType.GOLD_INGOT,
+                                1),
+                        },
+                        new RecipeRegistry.ItemRecipeOutcome(itemDefinitionGoldenChicken.Id, 1)
+                    );
+
+                    ctx.RecipeRegistry.CreateRecipe(
+                        "Golden Chicken Magnument",
+                        category, RecipeRegistry.SoLCraftingCategory.PROJECTS,
+                        new[]
                         {
-                            new RequiredRecipeMaterial(InventoryItemType.GOLD_INGOT, 5),
-                        }.ToList(),
-                        ResultItem = new ResultRecipeItem(InventoryItemType.NULL, 1)
-                            {StaticPrefabType = (StaticPrefabType) staticPrefabDefintionMagnument.Id}
-                    });
+                            new RequiredRecipeMaterial(
+                                InventoryItemType.GOLD_INGOT,
+                                5),
+                        },
+                        new RecipeRegistry.StaticPrefabRecipeOutcome(staticPrefabDefintionMagnument.Id)
+                    );
                 }
             );
         }
