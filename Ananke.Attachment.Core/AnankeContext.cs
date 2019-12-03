@@ -1,4 +1,5 @@
-﻿using Ananke.Attachment.Core.Graphics;
+﻿using Ananke.Attachment.Core.Entities;
+using Ananke.Attachment.Core.Graphics;
 using Ananke.Attachment.Core.Items;
 using Ananke.Attachment.Core.Mod;
 using Ananke.Attachment.Core.Phases;
@@ -20,6 +21,8 @@ namespace Ananke.Attachment.Core
         public long Version => 10000;
 
         public ItemsRegistry ItemsRegistry { get; } = new ItemsRegistry();
+
+        public LivingEntityRegistry LivingEntityRegistry { get; } = new LivingEntityRegistry();
         
         public StaticPrefabRegistry StaticPrefabRegistry { get; } = new StaticPrefabRegistry();
 

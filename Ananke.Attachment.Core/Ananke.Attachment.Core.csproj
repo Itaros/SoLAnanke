@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="AnankeContext.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Entities\LivingEntityActivator.cs" />
+    <Compile Include="Entities\LivingEntityDefinition.cs" />
+    <Compile Include="Entities\LivingEntityRegistry.cs" />
     <Compile Include="Graphics\DumbGraphicsRegistry.cs" />
     <Compile Include="Items\ItemActivator.cs" />
     <Compile Include="Items\ItemDefinition.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Recipes\RecipeRegistry.cs" />
     <Compile Include="SoLInventoryItemHandlerBypass.cs" />
     <Compile Include="SoLPhaseDelegator.cs" />
+    <Compile Include="SoLStaticLivingEntityInlineRegistryBypass.cs" />
     <Compile Include="SoLStaticPrefabInlineRegistryBypass.cs" />
     <Compile Include="StaticPrefabs\StaticPrefabActivator.cs" />
     <Compile Include="StaticPrefabs\StaticPrefabDefinition.cs" />

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Ananke.Attachment.Core;
+using Ananke.Attachment.Core.Entities;
 using Ananke.Attachment.Core.Graphics;
 using Ananke.Attachment.Core.Items;
 using Ananke.Attachment.Core.Mod;
@@ -51,6 +52,15 @@ namespace Runtime
                 )
             );
             context.StaticPrefabRegistry.Add(staticPrefabDefintionMagnument);
+            
+            //Living entites
+            var myAliveGoldenChicken = new LivingEntityDefinition(
+                10001,
+                "GCHICK", new LivingEntityActivator(
+                    () => new AliveGoldenChicken(10001)
+                )
+            );
+            context.LivingEntityRegistry.Add(myAliveGoldenChicken);
             
             context.Compatibility.V1Compat.AddActionForRecipeLoadingPhase(
                 GetType(), ctx =>

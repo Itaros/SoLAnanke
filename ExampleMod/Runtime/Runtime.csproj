@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExampleMod\AliveGoldenChicken.cs" />
     <Compile Include="ExampleMod\GoldenChickenMagnument.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="ExampleMod\GoldenChickenItem.cs" />

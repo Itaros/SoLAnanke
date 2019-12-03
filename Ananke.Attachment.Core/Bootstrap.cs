@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ananke.Attachment.Core.Entities;
 using Ananke.Attachment.Core.Items;
 using Ananke.Attachment.Core.Loader;
 using Ananke.Attachment.Core.StaticPrefabs;
+using SignsOfLife.Entities;
 using SignsOfLife.Entities.Items;
 using SignsOfLife.Entities.Items.Materials;
 using SignsOfLife.Prefabs.StaticPrefabs;
@@ -20,6 +22,7 @@ namespace Ananke.Attachment.Core
             SweetBridgeDog bridge = new SweetBridgeDog();
             ExtractVanillaItems(bridge);
             ExtractVanillaStaticPrefabs(bridge);
+            ExtractVanillaEntities(bridge);
 
             ModLoader loader = new ModLoader(new DirectoryInfo("mods"));
             loader.LoadMods();
@@ -68,6 +71,24 @@ namespace Ananke.Attachment.Core
                 AnankeContext.Current.StaticPrefabRegistry.Add(definition);
             }
 
+        }
+
+        private static void ExtractVanillaEntities(SweetBridgeDog bridge)
+        {
+            AnankeContext.Current.LivingEntityRegistry.Reset();
+
+            var listOfVanillaEntities = bridge.CollectBuiltingEnumedEntities();
+            var listOfProbedEntites = bridge.ProbeTypesOfCreatedEntites(listOfVanillaEntities);
+
+            foreach (var probe in listOfProbedEntites)
+            {
+                var activator = probe.Item2 == null
+                    ? new LivingEntityActivator(() => null)
+                    : new LivingEntityActivator(() => (LivingEntity) Activator.CreateInstance(probe.Item2));
+                
+                LivingEntityDefinition definition = new LivingEntityDefinition(probe.Item1.Item2, probe.Item1.Item1, activator);
+                AnankeContext.Current.LivingEntityRegistry.Add(definition);
+            }
         }
         
     }

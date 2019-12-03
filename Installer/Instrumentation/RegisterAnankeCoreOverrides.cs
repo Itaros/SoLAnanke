@@ -51,6 +51,29 @@ namespace Installer.Instrumentation
                     ass);
             }
             
+            //SoLStaticLivingEntityInlineRegistryBypass
+            {
+                var bootstrapMethod = attachment.MainModule.Types
+                    .First(t => t.Name == "SoLStaticLivingEntityInlineRegistryBypass").Methods.First(m =>
+                        m.IsStatic && m.Name == "GetNewLivingEntityByStaticPrefabType");
+
+                var definitionTypeReturn = main.Types.First(t => t.Name == "LivingEntity");
+                var definitionTypeEnumerator = main.Types.First(t => t.Name == "LivingEntityType");
+                
+                var definitionOldMethod =
+                    definitionTypeReturn.Methods.First(m => m.Name == "CreateNew" && m.Parameters[0].ParameterType == definitionTypeEnumerator);
+                
+                BootstrapMethodTo(ass, definitionOldMethod, definitionTypeReturn, bootstrapMethod);
+
+                var bootstrapNameToTypeMethod = attachment.MainModule.Types
+                    .First(t => t.Name == "SoLStaticLivingEntityInlineRegistryBypass").Methods.First(m =>
+                        m.IsStatic && m.Name == "GetNewLivingEntityTypeByName");
+                
+                var definitionNameToTypeOldMethod =
+                    definitionTypeReturn.Methods.First(m => m.Name == "GetLivingEntityTypeByName");
+                BootstrapMethodTo(ass, definitionNameToTypeOldMethod, definitionTypeReturn, bootstrapNameToTypeMethod);
+            }
+            
             /*
              TODO PRODUCTION CRITICAL:
              OVERRIDE GetNewStaticPrefabByName as well otherwise 
@@ -108,6 +131,35 @@ namespace Installer.Instrumentation
                 );
             }
             
+        }
+
+        private static MethodDefinition BootstrapMethodTo(AssemblyDefinition whichAssToReplaceIn,
+            MethodDefinition definitionOldMethod, TypeDefinition definitionTypeReturn, MethodDefinition delegateToMethod)
+        {
+            ModuleDefinition main = whichAssToReplaceIn.MainModule;
+            definitionOldMethod.Name = $"{definitionOldMethod.Name}BackupCall";
+
+            //Create new method and use it instead
+            var definitionNewMethod = new MethodDefinition(
+                "CreateNew",
+                MethodAttributes.Public | MethodAttributes.Static,
+                definitionOldMethod.ReturnType);
+            definitionNewMethod.Parameters.Add(
+                definitionOldMethod.Parameters[0]);
+            definitionTypeReturn.Methods.Add(definitionNewMethod);
+
+            {
+                var processor = definitionNewMethod.Body.GetILProcessor();
+
+                processor.Body.Instructions.Clear();
+                processor.Emit(OpCodes.Ldarg_0);
+                processor.Emit(OpCodes.Call, main.ImportReference(delegateToMethod));
+                processor.Emit(OpCodes.Ret);
+            }
+
+            CallHelper.ReplaceCall(definitionOldMethod, definitionNewMethod,
+                whichAssToReplaceIn);
+            return definitionNewMethod;
         }
     }
 }
