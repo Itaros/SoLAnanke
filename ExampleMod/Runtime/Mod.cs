@@ -66,7 +66,7 @@ namespace Runtime
                                 InventoryItemType.GOLD_INGOT,
                                 1),
                         },
-                        new RecipeRegistry.ItemRecipeOutcome(itemDefinitionGoldenChicken.Id, 1)
+                        new []{new RecipeRegistry.ItemRecipeOutcome(itemDefinitionGoldenChicken.Id, 1)}
                     );
 
                     ctx.RecipeRegistry.CreateRecipe(
@@ -78,7 +78,7 @@ namespace Runtime
                                 InventoryItemType.GOLD_INGOT,
                                 5),
                         },
-                        new RecipeRegistry.StaticPrefabRecipeOutcome(staticPrefabDefintionMagnument.Id)
+                        new []{new RecipeRegistry.StaticPrefabRecipeOutcome(staticPrefabDefintionMagnument.Id)}
                     );
 
                     //Vanilla recipe deletion
