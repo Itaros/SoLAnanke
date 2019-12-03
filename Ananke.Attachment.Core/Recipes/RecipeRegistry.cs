@@ -96,33 +96,39 @@ namespace Ananke.Attachment.Core.Recipes
             RecipeCategory category, 
             SoLCraftingCategory craftingCategory,
             IEnumerable<RequiredRecipeMaterial> requiredMaterials,
-            AbstractRecipeOutcome outcome)
+            IEnumerable<AbstractRecipeOutcome> outcome)
         {
 
             string craftingCategorySoL = craftingCategory.ToString().Substring(0, 1).ToUpperInvariant() +
                                          craftingCategory.ToString().Substring(1).ToLowerInvariant();
 
-            ResultRecipeItem result;
-            switch (outcome)
+            ResultRecipeItem ConvertAbstractRecipeOutcomeToConcrete(AbstractRecipeOutcome abstractRecipeOutcomes)
             {
-                case ItemRecipeOutcome itemRecipeOutcome:
-                    result = new ResultRecipeItem((InventoryItemType) itemRecipeOutcome.ItemId, itemRecipeOutcome.Amount);
-                    break;
-                case StaticPrefabRecipeOutcome staticPrefabRecipeOutcome:
-                    result = new ResultRecipeItem(InventoryItemType.NULL, staticPrefabRecipeOutcome.Amount)
-                    {
-                        StaticPrefabType = (StaticPrefabType)staticPrefabRecipeOutcome.PrefabId
-                    };
-                    break;
-                case BlockRecipeOutcome blockRecipeOutcome:
-                    result = new ResultRecipeItem(InventoryItemType.NULL, blockRecipeOutcome.Amount)
-                    {
-                        _blockID = blockRecipeOutcome.BlockId
-                    };
-                    break;
-                default:
-                    throw new ArgumentException("Unable to determine outcome policy!");
+                ResultRecipeItem result;
+                switch (abstractRecipeOutcomes)
+                {
+                    case ItemRecipeOutcome itemRecipeOutcome:
+                        result = new ResultRecipeItem((InventoryItemType) itemRecipeOutcome.ItemId, itemRecipeOutcome.Amount);
+                        break;
+                    case StaticPrefabRecipeOutcome staticPrefabRecipeOutcome:
+                        result = new ResultRecipeItem(InventoryItemType.NULL, staticPrefabRecipeOutcome.Amount)
+                        {
+                            StaticPrefabType = (StaticPrefabType) staticPrefabRecipeOutcome.PrefabId
+                        };
+                        break;
+                    case BlockRecipeOutcome blockRecipeOutcome:
+                        result = new ResultRecipeItem(InventoryItemType.NULL, blockRecipeOutcome.Amount)
+                        {
+                            _blockID = blockRecipeOutcome.BlockId
+                        };
+                        break;
+                    default:
+                        throw new ArgumentException("Unable to determine outcome policy!");
+                }
+
+                return result;
             }
+            var resultRecipeItem = outcome.Select(ConvertAbstractRecipeOutcomeToConcrete);
 
             var recipe = new Recipe
             {
@@ -132,7 +138,7 @@ namespace Ananke.Attachment.Core.Recipes
                 CraftingCategory = craftingCategorySoL,
                 HideUnlessDebug = false,
                 RequiredMaterials = requiredMaterials.ToList(),
-                ResultItem = result
+                ResultItems = resultRecipeItem.ToList()
             };
             
             SignsOfLife.UI.Hud._allRecipes.Add(recipe);
